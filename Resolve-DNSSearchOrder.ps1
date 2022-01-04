@@ -24,7 +24,9 @@ function Resolve-DNSSearchOrder ([string]$ComputerName)
     $objColl += $primaryDNSServerIP
 
     # Add all matches from an IPv4 RegEx pattern to the collection
-    $objColl += $([regex]::Matches($subcollection.Context.PostContext,"\d+\.\d+\.\d+\.\d+")).Value
+    # IPv4 RegEx
+    $regEx = '(?:25[0-5]|2[0-4]\d|[0-1]?\d{1,2})(?:\.(?:25[0-5]|2[0-4]\d|[0-1]?\d{1,2})){3}'
+    $ObjColl += $([regex]::Matches($subcollection.Context.PostContext,$regEx)).Value
     
     # Resolve IPs of DNS servers, returning host names
     $returnColl = @()
